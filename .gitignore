@@ -1,0 +1,11 @@
+node_modules/
+bower_components/
+patterns/
+app/libs/
+build/
+dist/
+PSD/
+*.log
+*.txt
+*.psd
+readme.md

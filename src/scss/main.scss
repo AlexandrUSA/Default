@@ -1,0 +1,51 @@
+* {
+	box-sizing: border-box;
+}
+html {
+	width: 100vw;
+	background: #b2e8f2;
+	margin: 0;
+	padding: 0;
+}
+body {
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+	p {
+		font-size: 55px;
+		font-weight: bold;
+	}
+	
+	a {
+		font-size: 30px;
+		text-decoration: none;
+		text-transform: uppercase;
+	}
+}
+
+h1 {
+	font-size: 90px;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-align: center;
+	color: #f00;
+}
+
+
+@media screen and (max-width: 1024px) {
+	p {
+		font-size: 40px;
+	}
+}
+
+html {
+	height: 100vh;
+}
