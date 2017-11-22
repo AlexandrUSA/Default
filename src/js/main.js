@@ -5,8 +5,7 @@ require('frame');
 
 
 var m1 = new Menu();
-
-alert(m1.name)
+console.log(m1.name)
 
 document.getElementById('b1').onclick = function() {
 	require.ensure([], function() {

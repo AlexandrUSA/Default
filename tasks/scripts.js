@@ -9,6 +9,9 @@ const gulp   = require('gulp'),
 	MinifyPlugin   = require("babel-minify-webpack-plugin"),
 	NODE_ENV = process.env.NODE_ENV || 'development',
 	opts     = {
+		output: {
+			publicPath: '/js/'
+		},
 		watch: NODE_ENV === 'development',
 		devtool: (NODE_ENV === 'development') ? 'cheap-source-map' : false,
 		module: {
@@ -22,7 +25,7 @@ const gulp   = require('gulp'),
 					}
 				}
 		}]},
-		plugins: [new webpack.NoEmitOnErrorsPlugin(), new MinifyPlugin()]
+		plugins: [new webpack.NoEmitOnErrorsPlugin()/*, new MinifyPlugin()*/]
 		
 	};
 
