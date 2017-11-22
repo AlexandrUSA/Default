@@ -1,7 +1,7 @@
 'use strict';
 
 const gulp = require('gulp'),
-	bSync  = require('browser-sync');
+	bSync  = require('browser-sync').create();
 
 module.exports = (o) => {
 	return () => {

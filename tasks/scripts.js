@@ -1,17 +1,40 @@
 'use strict';
 
-const gulp    = require('gulp'),
-	  wpStm   = require('webpack-stream'),
-	  webpack = wpStm.webpack,
-	  named   = require('vinyl-named');
+const gulp   = require('gulp'),
+	_        = require('gulp-load-plugins')(),
+	wpStm    = require('webpack-stream'),
+	webpack  = wpStm.webpack,
+	path     = require('path'),
+	named    = require('vinyl-named'),
+	MinifyPlugin   = require("babel-minify-webpack-plugin"),
+	NODE_ENV = process.env.NODE_ENV || 'development',
+	opts     = {
+		watch: NODE_ENV === 'development',
+		devtool: (NODE_ENV === 'development') ? 'cheap-source-map' : false,
+		module: {
+			loaders: [{
+				test: /\.js$/,
+				include: path.join(__dirname, 'dist'),
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: ['env']
+					}
+				}
+		}]},
+		plugins: [new webpack.NoEmitOnErrorsPlugin(), new MinifyPlugin()]
+		
+	};
 
 
-
-module.exports = ( o ) => {
+module.exports = (o) => {
 	return () => {
 		return gulp.src(o.src)
-		.pipe(named())
-		.pipe(wpStm(require('../webpack.config.js')))
-		.pipe(gulp.dest(o.dst))
+			.pipe(_.plumber({
+				errorHandler: _.notify.onError()
+			}))
+			.pipe(named())
+			.pipe(wpStm(opts))
+			.pipe(gulp.dest(o.dst))
 	};
 };

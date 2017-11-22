@@ -1,6 +1,16 @@
 'use strict';
+import Menu from './menu';
 var $C = require('_$C');
 require('frame');
 
 
-alert(FRAME);
+var m1 = new Menu();
+
+alert(m1.name)
+
+document.getElementById('b1').onclick = function() {
+	require.ensure([], function() {
+		require('./header')
+	})
+}
+

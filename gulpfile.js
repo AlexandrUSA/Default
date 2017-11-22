@@ -1,7 +1,6 @@
 'use strict';
 
-const gulp    = require('gulp'),
-	  bSync   = require('browser-sync').create();
+const gulp = require('gulp');
 
 function $(n, p, o) {
 	o = o || {};
@@ -49,4 +48,4 @@ gulp.task('watch', () => {
 	gulp.watch('src/static/**/*.*', gulp.series('export'));
 });
 
-gulp.task('default', gulp.series('build', gulp.parallel('watch', 'server')));
+gulp.task('default', gulp.series('build', gulp.parallel('watch', 'scripts',  'server')));
