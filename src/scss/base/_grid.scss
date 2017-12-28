@@ -1,14 +1,7 @@
-$columns: 12;
+@import '../common/vars';
+
 $atom: (100% / $columns);
 
-$break_xxs: 380px;
-$break_xs: 576px;
-$break_sm: 768px;
-$break_md: 992px;
-$break_lg: 1170px;
-$break_xlg: 1366px;
-
-$offset: 30px;
 $offset_xxs: $offset;
 $offset_xs: $offset;
 $offset_sm: $offset;
