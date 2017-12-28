@@ -1,0 +1,23 @@
+@import 'vars';
+@import 'fonts';
+
+body {
+	font-size: 16px;
+	font-weight: 400;
+	font-family: $font-base;
+}
+
+.wrapper {
+	@include wrapper;
+	position: relative;
+}
+.row {
+	@include row-flex;
+	justify-content: center;	
+}
+.row-float {
+	@include row-float;	
+}
+.col {
+	@include col();
+}

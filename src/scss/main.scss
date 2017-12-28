@@ -1,49 +1,11 @@
-* {
-	box-sizing: border-box;
-}
-html {
-	width: 100vw;
-	background: #b2e8f2;
-	margin: 0;
-	padding: 0;
-}
-body {
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	padding: 0;
-	overflow-x: hidden;
-	p {
-		font-size: 55px;
-		font-weight: bold;
-	}
-	
-	a {
-		font-size: 30px;
-		text-decoration: none;
-		text-transform: uppercase;
-	}
-	#b1 {
-		width: 120px;
-		height: 70px;
-	}
-}
+@charset 'utf-8';
 
-h1 {
-	font-size: 40px;
-	font-weight: bold;
-	text-transform: uppercase;
-	text-align: center;
-	color: #f00;
-}
+@import 'bin/index';	// Сетка, лейауты, сброс стилей
 
+@import 'libs/index';	// Используемые библиотеки
 
-@media screen and (max-width: 1024px) {
-	p {
-		font-size: 40px;
-	}
-}
+//---------------------------ВЕРСТКА---------------------------------//
+@import 'common';	// Общие для всей страницы стили (переменные, шрифты, общие классы)
 
-html {
-	height: 100vh;
-}
+//	Секции
+@import 'header';
