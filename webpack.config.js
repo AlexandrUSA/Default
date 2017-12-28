@@ -3,7 +3,6 @@ const webpack = require('webpack'),
 			path    = require('path'),
 			named   = require('vinyl-named'),
 			MinifyPlugin = require("babel-minify-webpack-plugin"),
-			HtmlWebpackPlugin = require('html-webpack-plugin'),
 			NODE_ENV = process.env.NODE_ENV || 'development',
 			PATHS = {
 	  			source: path.join(__dirname, 'src'),
