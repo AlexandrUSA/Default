@@ -1,6 +1,6 @@
-@include font-face("PFCentroSlabProBold", "../fonts/PFCentroSlabProBold/PFCentroSlabProBold", $file-formats: eot ttf woff);
-@include font-face("PFCentroSlabProMedium", "../fonts/PFCentroSlabProMedium/PFCentroSlabProMedium", $file-formats: eot ttf woff);
-@include font-face("RalewayBold", "../fonts/RalewayBold/RalewayBold", $file-formats: eot ttf woff);
-@include font-face("RalewayRegular", "../fonts/RalewayRegular/RalewayRegular", $file-formats: eot ttf woff);
-@include font-face("RalewaySemiBold", "../fonts/RalewaySemiBold/RalewaySemiBold", $file-formats: eot ttf woff);
-@include font-face("RobotoBold", "../fonts/RobotoBold/RobotoBold", $file-formats: eot ttf woff);
+@include font-face("PFCentroSlabProBold", "../fonts/PFCentroSlabProBold/PFCentroSlabProBold", $formats: eot ttf woff);
+@include font-face("PFCentroSlabProMedium", "../fonts/PFCentroSlabProMedium/PFCentroSlabProMedium", $formats: eot ttf woff);
+@include font-face("RalewayBold", "../fonts/RalewayBold/RalewayBold", $formats: eot ttf woff);
+@include font-face("RalewayRegular", "../fonts/RalewayRegular/RalewayRegular", $formats: eot ttf woff);
+@include font-face("RalewaySemiBold", "../fonts/RalewaySemiBold/RalewaySemiBold", $formats: eot ttf woff);
+@include font-face("RobotoBold", "../fonts/RobotoBold/RobotoBold", $formats: eot ttf woff);

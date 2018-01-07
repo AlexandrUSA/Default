@@ -9,7 +9,7 @@ var _$C = function (sel, w, h) {
 		console.log('Выполнено: Обьект canvas был создан.');
 		return {
 			el: c,
-			ctx: _c,
+			ctx: c.getContext('2d'),
 			w: c.width,
 			h: c.height
 		};
@@ -27,7 +27,7 @@ var _$C = function (sel, w, h) {
 			h: c.height
 		};
 	};
-	console.log('Ошибка: не удалось получить обьект canvas!');
+	throw new Error('Ошибка: не удалось получить обьект canvas!');
 };
 
 module.exports = _$C;

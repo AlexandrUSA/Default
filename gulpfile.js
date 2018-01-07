@@ -22,7 +22,7 @@ $('scss', './tasks/scss', {
 });
 
 $('export', './tasks/export', {
-	src: ['src/fonts/**', 'src/video/**', 'src/*.*', '!src/*.html'],
+	src: ['src/fonts/**', 'src/video/**', 'src/*.*', 'src/libs/**', '!src/*.html'],
 	base: 'src',
 	dst: 'dist'
 });

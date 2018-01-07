@@ -1,24 +1,28 @@
 @charset "UTF-8";
+
 @mixin list-reset {
   list-style: none;
   margin: 0;
   padding: 0;
-};
+}
+
 
 @mixin clearfix {
   *zoom: 1;
   &:before,
   &:after {
-    content: '';
+    content: " ";
     display: table;
   }
-  &:after { clear: both; }
+  &:after {
+    clear: both;
+  }
 }
 
-@mixin align-elems {
+@mixin justify-align {  
   text-align: justify;
   &::after {
-    content: "";
+    content: " ";
     display: inline-block;
     width: 100%;
     height: 0;
@@ -26,26 +30,71 @@
 }
 
 %before {
-  content: "";
+  content: " ";
   position: absolute;
   display: block;
 }
 
+%hide {
+  margin: -1px;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip: rect(0, 0, 0, 0);
+  position: absolute;
+}
 
+@mixin keyframes($animation-name) {
+    @-webkit-keyframes #{$animation-name} {
+        @content;
+    }
+    @-moz-keyframes #{$animation-name} {
+        @content;
+    }  
+    @-ms-keyframes #{$animation-name} {
+        @content;
+    }
+    @-o-keyframes #{$animation-name} {
+        @content;
+    }  
+    @keyframes #{$animation-name} {
+        @content;
+    }
+}
 
+// Background с фолбеками на пнг и для ретины
+@mixin background-image($name, $size:false){
+    background-image: url(#{$image-path}/#{$name}.svg);
+    @if($size){
+        background-size: $size;
+    }
+    .no-svg &{
+        background-image: url(#{$image-path}/#{$name}.#{$fallback-extension});
+
+        @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5) {
+          background-image: url(#{$image-path}/#{$name}#{$retina-suffix}.#{$fallback-extension});
+        }
+    }
+}
+
+%debug {
+  @include debug(rgba(0, 0, 0, .3), 1px solid #ff0);
+}
 
 ///////////////////////////////////ФУНКЦИИ///////////////////////////
 // Перевод в rem
-$rem-baseline: 16px !default;
+$rem-baseline: $font-size-base;
 $rem-fallback: false !default;
 $rem-px-only: false !default;
 
 @function rem-separator($list, $separator: false) {
-  @if $separator == "comma" or $separator == "space" {
+  @if $separator=="comma" or $separator=="space" {
     @return append($list, null, $separator);
-  } 
-  
-  @if function-exists("list-separator") == true {
+  }
+
+  @if function-exists("list-separator")==true {
     @return list-separator($list);
   }
   $test-list: ();
@@ -53,45 +102,52 @@ $rem-px-only: false !default;
     $test-list: append($test-list, $item, space);
   }
 
-  @return if($test-list == $list, space, comma);
+  @return if($test-list==$list, space, comma);
 }
 
 @mixin rem-baseline($zoom: 100%) {
   font-size: $zoom / 16px * $rem-baseline;
 }
+
 @function rem-convert($to, $values...) {
   $result: ();
-  $separator: rem-separator($values); 
+  $separator: rem-separator($values);
   @each $value in $values {
-    @if type-of($value) == "number" and unit($value) == "rem" and $to == "px" {
+    @if type-of($value)=="number" and unit($value)=="rem" and $to=="px" {
       $result: append($result, $value / 1rem * $rem-baseline + 0px, $separator);
-    } @else if type-of($value) == "number" and unit($value) == "px" and $to == "rem" {
+    }
+    @else if type-of($value)=="number" and unit($value)=="px" and $to=="rem" {
       $result: append($result, $value / $rem-baseline + 0rem, $separator);
-    } @else if type-of($value) == "list" {
+    }
+    @else if type-of($value)=="list" {
       $value-separator: rem-separator($value);
       $value: rem-convert($to, $value...);
       $value: rem-separator($value, $value-separator);
       $result: append($result, $value, $separator);
-    } @else {
+    }
+    @else {
       $result: append($result, $value, $separator);
     }
   }
-  @return if(length($result) == 1, nth($result, 1), $result);
+  @return if(length($result)==1, nth($result, 1), $result);
 }
+
 @function rem($values...) {
   @if $rem-px-only {
     @return rem-convert(px, $values...);
-  } @else {
+  }
+  @else {
     @return rem-convert(rem, $values...);
   }
 }
 
 @mixin rem($properties, $values...) {
-  @if type-of($properties) == "map" {
+  @if type-of($properties)=="map" {
     @each $property in map-keys($properties) {
       @include rem($property, map-get($properties, $property));
     }
-  } @else {
+  }
+  @else {
     @each $property in $properties {
       @if $rem-fallback or $rem-px-only {
         #{$property}: rem-convert(px, $values...);
@@ -102,65 +158,64 @@ $rem-px-only: false !default;
     }
   }
 }
+//Кроссбраузерная прозрачность
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
 
 // Font-face
-@function font-url-prefixer($asset-pipeline) {
-  @if $asset-pipeline == true {
-    @return font-url;
-  } @else {
-    @return url;
+@function main-src($formats, $file-path, $font-family) {
+  $result: ();
+  @if index($formats, eot) {
+    $eot-val: url('#{$file-path}.eot?#iefix') format('embedded-opentype');
+    $result: append($result, $eot-val, comma);
   }
-}
-@function font-source-declaration(
-  $font-family,
-  $file-path,
-  $asset-pipeline,
-  $file-formats,
-  $font-url) {
-  $src: ();
-  $formats-map: (
-    eot:   "#{$file-path}.eot?#iefix" format("embedded-opentype"),
-    woff2: "#{$file-path}.woff2" format("woff2"),
-    woff:  "#{$file-path}.woff" format("woff"),
-    ttf:   "#{$file-path}.ttf" format("truetype"),
-    svg:   "#{$file-path}.svg##{$font-family}" format("svg")
-  );
-  @each $key, $values in $formats-map {
-    @if contains($file-formats, $key) {
-      $file-path: nth($values, 1);
-      $font-format: nth($values, 2);
-
-      @if $asset-pipeline == true {
-        $src: append($src, font-url($file-path) $font-format, comma);
-      } @else {
-        $src: append($src, url($file-path) $font-format, comma);
-      }
-    }
+  @if index($formats, woff2) {
+    $woff2-val: url('#{$file-path}.woff2') format('woff2');
+    $result: append($result, $woff2-val, comma);
   }
-
-  @return $src;
+  @if index($formats, woff) {
+    $woff-val: url('#{$file-path}.woff') format('woff');
+    $result: append($result, $woff-val, comma);
+  }
+  @if index($formats, ttf) {
+    $ttf-val: url('#{$file-path}.ttf') format('truetype');
+    $result: append($result, $ttf-val, comma);
+  }
+  @if index($formats, svg) {
+    $svg-val: url('#{$file-path}.svg##{$font-family}') format('svg');
+    $result: append($result, $svg-val, comma);
+  }
+  @return $result;
 }
-@mixin font-face(
+
+@mixin font-face (
   $font-family,
   $file-path,
   $weight: normal,
   $style: normal,
-  $asset-pipeline: false,
-  $file-formats: eot woff2 woff ttf svg) {
-  $font-url-prefix: font-url-prefixer($asset-pipeline);
+  $formats: eot woff2 woff ttf svg
+) {
+
+  @if index('italic' 'oblique', $weight) {
+    $style: $weight;
+    $weight: normal;
+  }
+
   @font-face {
     font-family: $font-family;
-    font-style: $style;
     font-weight: $weight;
+    font-style: $style;
 
-    src: font-source-declaration(
-      $font-family,
-      $file-path,
-      $asset-pipeline,
-      $file-formats,
-      $font-url-prefix
-    );
+    @if index($formats, eot) {
+      src: url('#{$file-path}.eot');
+    }
+    src: main-src($formats, $file-path, $font-family);
   }
+
 }
 
 //Треугольники
@@ -168,60 +223,71 @@ $rem-px-only: false !default;
   $width: nth($size, 1);
   $height: nth($size, length($size));
   $foreground-color: nth($color, 1);
-  $background-color: if(length($color) == 2, nth($color, 2), transparent);
+  $background-color: if(length($color)==2, nth($color, 2), transparent);
   height: 0;
   width: 0;
 
-  @if ($direction == up) or ($direction == down) or ($direction == right) or ($direction == left) {
+  @if ($direction==up) or ($direction==down) or ($direction==right) or ($direction==left) {
     $width: $width / 2;
     $height: if(length($size) > 1, $height, $height/2);
 
-    @if $direction == up {
+    @if $direction==up {
       border-bottom: $height solid $foreground-color;
       border-left: $width solid $background-color;
       border-right: $width solid $background-color;
-    } @else if $direction == right {
+    }
+    @else if $direction==right {
       border-bottom: $width solid $background-color;
       border-left: $height solid $foreground-color;
       border-top: $width solid $background-color;
-    } @else if $direction == down {
+    }
+    @else if $direction==down {
       border-left: $width solid $background-color;
       border-right: $width solid $background-color;
       border-top: $height solid $foreground-color;
-    } @else if $direction == left {
+    }
+    @else if $direction==left {
       border-bottom: $width solid $background-color;
       border-right: $height solid $foreground-color;
       border-top: $width solid $background-color;
     }
-  } @else if ($direction == up-right) or ($direction == up-left) {
+  }
+  @else if ($direction==up-right) or ($direction==up-left) {
     border-top: $height solid $foreground-color;
 
-    @if $direction == up-right {
-      border-left:  $width solid $background-color;
-    } @else if $direction == up-left {
+    @if $direction==up-right {
+      border-left: $width solid $background-color;
+    }
+    @else if $direction==up-left {
       border-right: $width solid $background-color;
     }
-  } @else if ($direction == down-right) or ($direction == down-left) {
+  }
+  @else if ($direction==down-right) or ($direction==down-left) {
     border-bottom: $height solid $foreground-color;
 
-    @if $direction == down-right {
-      border-left:  $width solid $background-color;
-    } @else if $direction == down-left {
+    @if $direction==down-right {
+      border-left: $width solid $background-color;
+    }
+    @else if $direction==down-left {
       border-right: $width solid $background-color;
     }
-  } @else if ($direction == inset-up) {
+  }
+  @else if ($direction==inset-up) {
     border-color: $background-color $background-color $foreground-color;
     border-style: solid;
     border-width: $height $width;
-  } @else if ($direction == inset-down) {
+  }
+  @else if ($direction==inset-down) {
     border-color: $foreground-color $background-color $background-color;
     border-style: solid;
     border-width: $height $width;
-  } @else if ($direction == inset-right) {
+  }
+  @else if ($direction==inset-right) {
     border-color: $background-color $background-color $background-color $foreground-color;
     border-style: solid;
     border-width: $width $height;
-  } @else if ($direction == inset-left) {
+  }
+  @else if ($direction==inset-left) {
     border-color: $background-color $foreground-color $background-color $background-color;
     border-style: solid;
     border-width: $width $height;

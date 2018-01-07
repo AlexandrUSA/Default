@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ru" prefix="og: http://ogp.me/ns#"  itemscope itemtype="http://schema.org/WebPage">
+<html class="no-js" lang="ru" prefix="og: http://ogp.me/ns#"  itemscope itemtype="http://schema.org/WebPage">
 
 <head>
 	<meta charset="utf-8">
 	<title>TITTLE</title>
 	<meta name="description" content="">
 	<meta name="keywords" content="">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta http-equiv="cleartype" content="on">	<!--Mobile IE fonts smother-->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="manifest" href="site.webmanifest">
 	
 	<!--OpenGraph, twitter, G+-->
 	<meta property="og:title" content="ПравЭксперт"/>
@@ -55,9 +55,28 @@
 	<style type="text/css">body { opacity: 0; overflow-x: hidden; } html {background-color: #fff }</style>
 	
 	<!--[if lt IE 9]>
-   		<script src="js/html5shiv.min.js"></script>
-   		<script src="js/es5shim.js"></script>
- 	<![endif]-->
+		<script src="libs/html5shiv/es5-shim.min.js"></script>
+		<script src="libs/html5shiv/html5shiv.min.js"></script>
+		<script src="libs/html5shiv/html5shiv-printshiv.min.js"></script>
+		<script src="libs/respond/domshim/respond.min.js"></script>
+		<script src="libs/domshim/a.ie8.js"></script>
+	<![endif]-->
+	<script src="libs/modernizr-custom.js" async defer></script>
+	<script type="application/ld+json">
+		{
+		  "@context": "http://schema.org/",
+		  "@type": "Organization",
+		  "name": "ПравЭксперт",
+		  "address": {
+		    "@type": "PostalAddress",
+		    "streetAddress": "пр. Зеленых многоножек 24",
+		    "addressLocality": "Гомель",
+		    "addressRegion": "Гомельская область",
+		    "postalCode": "5633333"
+		  },
+		  "telephone": "+393479291110"
+		}
+	</script>
 </head>
 
 <body>

@@ -1,23 +1,11 @@
 @import 'fonts';
-
+html {
+	font-size: $font-size-base;
+}
 body {
-	font-size: 16px;
+	min-width: 320px;
 	font-weight: 400;
 	font-family: $font-base;
 	color: $main-color;
 }
 
-.wrapper {
-	@include wrapper;
-	position: relative;
-}
-.row {
-	@include row-flex;
-	justify-content: center;	
-}
-.row-float {
-	@include row-float;	
-}
-.col {
-	@include col();
-}
