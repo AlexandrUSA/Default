@@ -387,6 +387,7 @@ body {
 	text-align: left;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .wrapper {
@@ -397,19 +398,12 @@ body {
 .flexbox .row {
 	@include row-flex;
 	justify-content: center;	
-	align-items: center;
 }
 
 .no-flexbox .row {
 	@include row-float;	
 }
 
-.col {
-	@include col();
-}
-.row-float {
-	@include row-float;	
-}
 .col {
 	@include col();
 }
